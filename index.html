@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="style.css">
     </head>
 
-    <body onload="setTimeout(frameRender)">
+    <body onload="setTimeout(start)">
 
         <main>
             <div class="frame" id="frame">  
@@ -23,7 +23,7 @@
                 <select title="Size" id="size" onchange="frameRender()">
                     <option value="15">Extra Small</option>
                     <option value="20">Small</option>
-                    <option value="25">Medium</option>
+                    <option value="25" selected="selected">Medium</option>
                     <option value="30">Big</option>
                     <option value="35">Extra Big</option>
                 </select>
@@ -31,12 +31,12 @@
 
             <div class="switch">
                 <label>Level: </label>
-                <select title="Level" id="level" onchange="frameRender()">
-                    <option value="1000">Very Slow</option>
-                    <option value="800">Slow</option>
-                    <option value="600">Normal</option>
-                    <option value="400">Fast</option>
-                    <option value="200">Very Fast</option>
+                <select title="Level" id="level" onchange="start()">
+                    <option value="960">Very Slow</option>
+                    <option value="480">Slow</option>
+                    <option value="240" selected="selected">Normal</option>
+                    <option value="120">Fast</option>
+                    <option value="60">Very Fast</option>
                 </select>
             </div>
 

@@ -30,7 +30,8 @@ let direction = 2;
 */
 let pixels = [];
 
-let intervalControl = 0;
+/** @type { number | undefined } */
+let intervalControl;
 
 function frameRender() {
 
@@ -135,6 +136,9 @@ function start() {
 
     // @ts-ignore
     const timeout = parseInt(document.getElementById('level')?.value ?? '1000');
+
+    if(intervalControl) stop();
+    else frameRender();
 
     intervalControl = setInterval(() => {
         snakeMove();
