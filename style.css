@@ -1,0 +1,63 @@
+body {
+    font-family: Roboto;
+    box-sizing: border-box;
+}
+
+main {
+    margin: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+footer {
+    margin: 30px;
+}
+
+.frame {
+    border: 1px solid #345;
+    border-radius: 2px;
+    padding: 3px;
+    float: left;
+}
+
+.row {
+    display: flex;
+}
+
+.pixel {
+    border: 1px solid #abc;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+}
+
+.pixel.filled {
+    background-color: #345;
+}
+
+.pixel.head {
+    background-color: #678;
+}
+
+.pixel.food {
+    background-color: #484;
+}
+
+.switch {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+
+label {
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 75px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}

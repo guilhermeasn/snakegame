@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Snake Game</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body onload="setTimeout(frameRender)">
+
+        <main>
+            <div class="frame" id="frame">  
+            </div>
+        </main>
+
+        <footer>
+
+            <div class="switch">
+                <label>Size: </label>
+                <select title="Size" id="size" onchange="frameRender()">
+                    <option value="15">Extra Small</option>
+                    <option value="20">Small</option>
+                    <option value="25">Medium</option>
+                    <option value="30">Big</option>
+                    <option value="35">Extra Big</option>
+                </select>
+            </div>
+
+            <div class="switch">
+                <label>Level: </label>
+                <select title="Level" id="level" onchange="frameRender()">
+                    <option value="1000">Very Slow</option>
+                    <option value="800">Slow</option>
+                    <option value="600">Normal</option>
+                    <option value="400">Fast</option>
+                    <option value="200">Very Fast</option>
+                </select>
+            </div>
+
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
+
+</html>
