@@ -233,7 +233,7 @@ function reset() {
     snake = snakeDefault;
     direction = 2
     food = null;
-    frameRender();
+    loadScore();
 }
 
 function loadScore() {
@@ -250,21 +250,25 @@ function loadScore() {
 
 /** @type { (action: 'T' | 'B' | 'L' | 'R' | 'S') => void } */
 function dispatch(action) {
+
+    if(action === 'S') {
+        intervalControl ? stop() : start();
+        return;
+    }
     
     const last = direction;
 
-    switch(action) {
+    if(!changedDirection) {
+        switch(action) {
 
-        case 'T': direction = (direction !== 3 && intervalControl && !changedDirection) ? 1 : 3; break;
-        case 'R': direction = (direction !== 4 && intervalControl && !changedDirection) ? 2 : 4; break;
-        case 'B': direction = (direction !== 1 && intervalControl && !changedDirection) ? 3 : 1; break;
-        case 'L': direction = (direction !== 2 && intervalControl && !changedDirection) ? 4 : 2; break;
+            case 'T': direction = (direction !== 3 && intervalControl && !changedDirection) ? 1 : 3; break;
+            case 'R': direction = (direction !== 4 && intervalControl && !changedDirection) ? 2 : 4; break;
+            case 'B': direction = (direction !== 1 && intervalControl && !changedDirection) ? 3 : 1; break;
+            case 'L': direction = (direction !== 2 && intervalControl && !changedDirection) ? 4 : 2; break;
 
-        case 'S': intervalControl ? stop() : start(); break;
-
+        }
+        changedDirection = last !== direction;
     }
-
-    changedDirection = last !== direction;
 
 }
 
