@@ -228,6 +228,7 @@ function reset() {
     gameEnd = false;
     snake = snakeDefault;
     direction = 2
+    food = null;
     frameRender();
 }
 
@@ -249,10 +250,10 @@ document.addEventListener("keydown", event => {
 
     switch(event.code) {
 
-        case 'ArrowUp':    case 'KeyW': direction = direction !== 3 && intervalControl && !changedDirection ? 1 : 3; break;
-        case 'ArrowRight': case 'KeyD': direction = direction !== 4 && intervalControl && !changedDirection ? 2 : 4; break;
-        case 'ArrowDown':  case 'KeyS': direction = direction !== 1 && intervalControl && !changedDirection ? 3 : 1; break;
-        case 'ArrowLeft':  case 'KeyA': direction = direction !== 2 && intervalControl && !changedDirection ? 4 : 2; break;
+        case 'ArrowUp':    case 'KeyW': direction = (direction !== 3 && intervalControl && !changedDirection) ? 1 : 3; break;
+        case 'ArrowRight': case 'KeyD': direction = (direction !== 4 && intervalControl && !changedDirection) ? 2 : 4; break;
+        case 'ArrowDown':  case 'KeyS': direction = (direction !== 1 && intervalControl && !changedDirection) ? 3 : 1; break;
+        case 'ArrowLeft':  case 'KeyA': direction = (direction !== 2 && intervalControl && !changedDirection) ? 4 : 2; break;
 
         case 'Space': intervalControl ? stop() : start(); break;
 
