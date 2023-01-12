@@ -21,23 +21,25 @@
         <main>
             <div class="frame" id="frame">  
             </div>
+            <div class="advice">
+                <p>Press 'Space' or  to start or pause game</p>
+            </div>
         </main>
 
         <footer>
-            
-            <div class="advice">
-                <p>Press 'Space' to start or pause game</p>
-            </div>
 
-            <div class="switch">
-                <label>Size: </label>
-                <select title="Size" id="size" onchange="reset()">
-                    <option value="15">Extra Small</option>
-                    <option value="20">Small</option>
-                    <option value="25" selected="selected">Medium</option>
-                    <option value="30">Big</option>
-                    <option value="35">Extra Big</option>
-                </select>
+            <div class="controls">
+                <div class="row">
+                    <button onclick="dispatch('KeyW')">&#9650;</button>
+                </div>
+                <div class="row">
+                    <button onclick="dispatch('KeyA')">&#9664;</button>
+                    <button onclick="dispatch('KeyS')">&#9660;</button>
+                    <button onclick="dispatch('KeyD')">&#9654;</button>
+                </div>
+                <div class="row">
+                    <button onclick="dispatch('Space')">&#9199;</button>
+                </div>
             </div>
 
             <div class="switch">
@@ -48,6 +50,17 @@
                     <option value="300" selected="selected">Normal</option>
                     <option value="150">Fast</option>
                     <option value="75">Very Fast</option>
+                </select>
+            </div>
+
+            <div class="switch">
+                <label>Size: </label>
+                <select title="Size" id="size" onchange="reset()">
+                    <option value="15">Extra Small</option>
+                    <option value="20">Small</option>
+                    <option value="25" selected="selected">Medium</option>
+                    <option value="30">Big</option>
+                    <option value="35">Extra Big</option>
                 </select>
             </div>
 

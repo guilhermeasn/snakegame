@@ -3,3 +3,7 @@
 [![figure](figure.png)](https://guilhermeasn.github.io/snakegame/)
 
 https://guilhermeasn.github.io/snakegame/
+
+## Author
+
+ **Guilherme Neves**

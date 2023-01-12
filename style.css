@@ -3,32 +3,44 @@ body {
     box-sizing: border-box;
 }
 
-main, header {
+header {
+    margin: 15px;
+    text-align: center;
+}
+
+main {
     margin: 15px;
     text-align: center;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 footer {
-    margin: 30px;
+    margin: 15px;
+    margin-top: 5px;
 }
 
 .frame {
     border: 1px solid #345;
     border-radius: 2px;
     padding: 3px;
-    float: left;
+    width: min-content;
+    margin: 0 auto;
 }
 
 .row {
     display: flex;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .pixel {
     border: 1px solid #abc;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     margin: 1px;
 }
 
@@ -88,4 +100,23 @@ select {
 .advice {
     text-align: center;
     font-size: 12px;
+    margin: 0;
+}
+
+.advice p {
+    margin-top: 3px;
+}
+
+.controls {
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.controls button {
+    margin: 3px;
+    padding: 7px;
 }
