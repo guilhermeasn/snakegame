@@ -4,10 +4,10 @@
  * @type { Array<{x:number;y:number}> }
 */
 const snakeDefault = [
-    { x: 3, y: 0 }, // head
+    { x: 4, y: 0 }, // head
+    { x: 3, y: 0 }, // body
     { x: 2, y: 0 }, // body
     { x: 1, y: 0 }, // body
-    { x: 0, y: 0 }, // body
     { x: 0, y: 0 }  // body
 ];
 let snake = snakeDefault;
@@ -128,7 +128,7 @@ function calculatePixels() {
     // @ts-ignore
     const size = parseInt(document.getElementById('size')?.value ?? '10');
 
-    if(pixels) {
+    if(pixels && intervalControl) {
         snakeMove(size);
         evaluate()
         if(!food) food = addFood(size);
@@ -154,6 +154,8 @@ function calculatePixels() {
 }
 
 function frameRender() {
+
+    calculatePixels();
 
     const frameElement = document.getElementById('frame');
 
@@ -204,22 +206,29 @@ function start() {
     if(intervalControl) stop();
     else frameRender();
 
-    if(gameEnd) {
-        gameEnd = false;
-        snake = snakeDefault;
-    }
+    const sizeElement = document.getElementById('size');
+    if(sizeElement) sizeElement.setAttribute('disabled', 'disabled');
 
-    intervalControl = setInterval(() => {
-        calculatePixels();
-        frameRender();
-    }, timeout);
+    if(gameEnd) reset();
+
+    intervalControl = setInterval(frameRender, timeout);
 }
 
 function stop() {
-    if(intervalControl) {
-        clearInterval(intervalControl);
-        intervalControl = null;
-    }
+
+    const sizeElement = document.getElementById('size');
+    if(sizeElement) sizeElement.removeAttribute('disabled');
+
+    if(intervalControl) clearInterval(intervalControl);
+    intervalControl = null;
+
+}
+
+function reset() {
+    gameEnd = false;
+    snake = snakeDefault;
+    direction = 2
+    frameRender();
 }
 
 function loadScore() {
@@ -230,7 +239,6 @@ function loadScore() {
     if(scoreElement) scoreElement.innerHTML = '0';
     if(maxScoreElement) maxScoreElement.innerHTML = localStorage.getItem('csg-maxscore') ?? '0';
 
-    calculatePixels();
     frameRender();
 
 }
