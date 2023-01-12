@@ -84,3 +84,8 @@ select {
 #score {
     font-weight: bold;
 }
+
+.advice {
+    text-align: center;
+    font-size: 12px;
+}
