@@ -3,8 +3,8 @@ body {
     box-sizing: border-box;
 }
 
-main {
-    margin: 30px;
+main, header {
+    margin: 15px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -37,11 +37,31 @@ footer {
 }
 
 .pixel.head {
-    background-color: #678;
+    background-color: #abc;
 }
 
 .pixel.food {
     background-color: #484;
+}
+
+.gameEnd {
+    border: 1px solid #700 !important;
+}
+
+.gameEnd .pixel {
+    border: 1px solid #C00 !important;
+}
+
+.gameEnd .pixel.filled {
+    background-color: #700;
+}
+
+.gameEnd .pixel.head {
+    background-color: #f00;
+}
+
+.gameEnd .pixel.food {
+    background-color: #884;
 }
 
 .switch {
@@ -52,12 +72,15 @@ footer {
 
 label {
     font-weight: bold;
-    font-size: 18px;
-    min-width: 75px;
+    min-width: 80px;
 }
 
 select {
     width: 100%;
     padding: 10px;
     border-radius: 10px;
+}
+
+#score {
+    font-weight: bold;
 }

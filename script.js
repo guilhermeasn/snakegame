@@ -1,14 +1,16 @@
 // @ts-check
 
 /**
- * @type { Array<{x:number;y:number> }
+ * @type { Array<{x:number;y:number}> }
 */
-let snake = [
-    { x: 3, y: 0 },
-    { x: 2, y: 0 },
-    { x: 1, y: 0 },
-    { x: 0, y: 0 },
+const snakeDefault = [
+    { x: 3, y: 0 }, // head
+    { x: 2, y: 0 }, // body
+    { x: 1, y: 0 }, // body
+    { x: 0, y: 0 }, // body
+    { x: 0, y: 0 }  // body
 ];
+let snake = snakeDefault;
 
 /**
  * @type { number }
@@ -20,6 +22,9 @@ let snake = [
  */
 let direction = 2;
 
+/** @type { boolean } */
+let changedDirection = false;
+
 /** 
  * @type { Array<Array<(0|1|2|3)>> }
  * 
@@ -30,16 +35,104 @@ let direction = 2;
 */
 let pixels = [];
 
-/** @type { number | undefined } */
-let intervalControl;
+/** @type { {x:number;y:number} | null } */
+let food = null;
 
-function frameRender() {
+/** @type { number | null } */
+let intervalControl = null;
+
+/** @type { boolean } */
+let gameEnd = false;
+
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function addFood(frameSize) {
+
+    frameSize--;
+
+    if(pixels.filter(p => p.some(v => v === 0)).length === 0) {
+        return null;
+    }
+
+    while(true) {
+
+        const y = getRandom(0, frameSize);
+        const x = getRandom(0, frameSize);
+
+        if(pixels[y][x] === 0) {
+            return { y, x };
+        }
+
+    }
+
+}
+
+function snakeMove(frameSize) {
+
+    let last;
+
+    snake = snake.map(pos => {
+
+        let newPos = last;
+
+        if(!last) switch(direction) {
+            case 1: newPos = { x: pos.x, y: pos.y - 1 }; break;
+            case 2: newPos = { x: pos.x + 1, y: pos.y }; break;
+            case 3: newPos = { x: pos.x, y: pos.y + 1 }; break;
+            case 4: newPos = { x: pos.x - 1, y: pos.y }; break;
+        }
+
+        last = pos;
+
+        return {
+            x: newPos.x < 0 ? frameSize - 1 : newPos.x < frameSize ? newPos.x : 0,
+            y: newPos.y < 0 ? frameSize - 1 : newPos.y < frameSize ? newPos.y : 0,
+        };
+
+    });
+
+}
+
+function evaluate() {
+
+    const head = snake[0];
+    
+    if(snake.slice(1).some(body => body.y === head.y && body.x === head.x)) {
+        gameEnd = true;
+    }
+
+    if(food && food.y === head.y && food.x === head.x) {
+
+        food = null;
+        snake.push(head);
+
+        const score = (snake.length - snakeDefault.length) * 10;
+        const scoreElement = document.getElementById('score');
+        const maxScoreElement = document.getElementById('maxscore');
+
+        if(scoreElement) scoreElement.innerHTML = score.toLocaleString();
+
+        if(score > parseInt(localStorage.getItem('csg-maxscore') ?? '0')) {
+            localStorage.setItem('csg-maxscore', score.toString());
+            if(maxScoreElement) maxScoreElement.innerHTML = score.toLocaleString();
+        }
+        
+    }
+
+}
+
+function calculatePixels() {
 
     // @ts-ignore
     const size = parseInt(document.getElementById('size')?.value ?? '10');
-    const frameElement = document.getElementById('frame');
 
-    if(!frameElement) throw new Error('Frame Element not found!');
+    if(pixels) {
+        snakeMove(size);
+        evaluate()
+        if(!food) food = addFood(size);
+    }
 
     pixels = [];
 
@@ -52,11 +145,24 @@ function frameRender() {
             const i = snake.findIndex(pos => pos.x === x && pos.y === y);
             pixels[y][x] = i === 0 ? 2 : i > 0 ? 1 : 0;
             
+            if(food && food.y === y && food.x === x) pixels[y][x] = 3;
+            
         }
 
     }
 
+}
+
+function frameRender() {
+
+    const frameElement = document.getElementById('frame');
+
+    if(!frameElement) throw new Error('Frame Element not found!');
     frameElement.innerHTML = '';
+
+    if(frameElement.classList.contains('gameEnd')) {
+        frameElement.classList.remove('gameEnd');
+    }
 
     pixels.forEach(row => {
 
@@ -81,71 +187,69 @@ function frameRender() {
         frameElement.append(rowElement);
     });
 
-}
-
-function getRandom(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function addFood() {
-
-    const size = pixels.length;
-
-    while(true) {
-
-        const y = getRandom(0, size - 1);
-        const x = getRandom(0, size - 1);
-
-        if(pixels[y][x] === 0) {
-            pixels[y][x] = 3;
-            break;
-        }
-
+    if(gameEnd) {
+        frameElement.classList.add('gameEnd');
+        stop();
     }
 
-}
-
-function snakeMove() {
-
-    const size = pixels.length;
-    let last;
-
-    snake = snake.map(pos => {
-
-        let newPos = last;
-
-        if(!last) switch(direction) {
-            case 1: newPos = { x: pos.x, y: pos.y - 1 }; break;
-            case 2: newPos = { x: pos.x + 1, y: pos.y }; break;
-            case 3: newPos = { x: pos.x, y: pos.y + 1 }; break;
-            case 4: newPos = { x: pos.x - 1, y: pos.y }; break;
-        }
-
-        last = pos;
-
-        return {
-            x: newPos.x < 0 ? size - 1 : newPos.x < size ? newPos.x : 0,
-            y: newPos.y < 0 ? size - 1 : newPos.y < size ? newPos.y : 0,
-        };
-
-    });
+    changedDirection = false;
 
 }
 
 function start() {
 
     // @ts-ignore
-    const timeout = parseInt(document.getElementById('level')?.value ?? '1000');
+    const timeout = parseInt(document.getElementById('speed')?.value ?? '1000');
 
     if(intervalControl) stop();
     else frameRender();
 
+    if(gameEnd) {
+        gameEnd = false;
+        snake = snakeDefault;
+    }
+
     intervalControl = setInterval(() => {
-        snakeMove();
+        calculatePixels();
         frameRender();
     }, timeout);
 }
 
 function stop() {
-    clearInterval(intervalControl);
+    if(intervalControl) {
+        clearInterval(intervalControl);
+        intervalControl = null;
+    }
 }
+
+function loadScore() {
+
+    const scoreElement = document.getElementById('score');
+    const maxScoreElement = document.getElementById('maxscore');
+
+    if(scoreElement) scoreElement.innerHTML = '0';
+    if(maxScoreElement) maxScoreElement.innerHTML = localStorage.getItem('csg-maxscore') ?? '0';
+
+    calculatePixels();
+    frameRender();
+
+}
+
+document.addEventListener("keydown", event => {
+
+    const last = direction;
+
+    switch(event.code) {
+
+        case 'ArrowUp':    case 'KeyW': direction = direction !== 3 && intervalControl && !changedDirection ? 1 : 3; break;
+        case 'ArrowRight': case 'KeyD': direction = direction !== 4 && intervalControl && !changedDirection ? 2 : 4; break;
+        case 'ArrowDown':  case 'KeyS': direction = direction !== 1 && intervalControl && !changedDirection ? 3 : 1; break;
+        case 'ArrowLeft':  case 'KeyA': direction = direction !== 2 && intervalControl && !changedDirection ? 4 : 2; break;
+
+        case 'Space': intervalControl ? stop() : start(); break;
+
+    }
+
+    changedDirection = last !== direction;
+
+});

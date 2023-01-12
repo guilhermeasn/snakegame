@@ -9,7 +9,14 @@
         <link rel="stylesheet" href="style.css">
     </head>
 
-    <body onload="setTimeout(start)">
+    <body onload="setTimeout(loadScore)">
+
+        <header>
+            <label>Score:</label>
+            <span id="score"></span>
+            &nbsp;/&nbsp;
+            <span id="maxscore"></span>
+        </header>
 
         <main>
             <div class="frame" id="frame">  
@@ -20,7 +27,7 @@
 
             <div class="switch">
                 <label>Size: </label>
-                <select title="Size" id="size" onchange="frameRender()">
+                <select title="Size" id="size" onchange="start()">
                     <option value="15">Extra Small</option>
                     <option value="20">Small</option>
                     <option value="25" selected="selected">Medium</option>
@@ -30,8 +37,8 @@
             </div>
 
             <div class="switch">
-                <label>Level: </label>
-                <select title="Level" id="level" onchange="start()">
+                <label>Speed: </label>
+                <select title="Speed" id="speed" onchange="start()">
                     <option value="960">Very Slow</option>
                     <option value="480">Slow</option>
                     <option value="240" selected="selected">Normal</option>
