@@ -248,18 +248,19 @@ function loadScore() {
 
 }
 
-function dispatch(key) {
+/** @type { (action: 'T' | 'B' | 'L' | 'R' | 'S') => void } */
+function dispatch(action) {
     
     const last = direction;
 
-    switch(key) {
+    switch(action) {
 
-        case 'ArrowUp':    case 'KeyW': direction = (direction !== 3 && intervalControl && !changedDirection) ? 1 : 3; break;
-        case 'ArrowRight': case 'KeyD': direction = (direction !== 4 && intervalControl && !changedDirection) ? 2 : 4; break;
-        case 'ArrowDown':  case 'KeyS': direction = (direction !== 1 && intervalControl && !changedDirection) ? 3 : 1; break;
-        case 'ArrowLeft':  case 'KeyA': direction = (direction !== 2 && intervalControl && !changedDirection) ? 4 : 2; break;
+        case 'T': direction = (direction !== 3 && intervalControl && !changedDirection) ? 1 : 3; break;
+        case 'R': direction = (direction !== 4 && intervalControl && !changedDirection) ? 2 : 4; break;
+        case 'B': direction = (direction !== 1 && intervalControl && !changedDirection) ? 3 : 1; break;
+        case 'L': direction = (direction !== 2 && intervalControl && !changedDirection) ? 4 : 2; break;
 
-        case 'Space': intervalControl ? stop() : start(); break;
+        case 'S': intervalControl ? stop() : start(); break;
 
     }
 
@@ -269,19 +270,15 @@ function dispatch(key) {
 
 document.addEventListener("keydown", event => {
 
-    const last = direction;
-
     switch(event.code) {
 
-        case 'ArrowUp':    case 'KeyW': direction = (direction !== 3 && intervalControl && !changedDirection) ? 1 : 3; break;
-        case 'ArrowRight': case 'KeyD': direction = (direction !== 4 && intervalControl && !changedDirection) ? 2 : 4; break;
-        case 'ArrowDown':  case 'KeyS': direction = (direction !== 1 && intervalControl && !changedDirection) ? 3 : 1; break;
-        case 'ArrowLeft':  case 'KeyA': direction = (direction !== 2 && intervalControl && !changedDirection) ? 4 : 2; break;
+        case 'ArrowUp':    case 'KeyW': dispatch('T'); break;
+        case 'ArrowRight': case 'KeyD': dispatch('R'); break;
+        case 'ArrowDown':  case 'KeyS': dispatch('B'); break;
+        case 'ArrowLeft':  case 'KeyA': dispatch('L'); break;
 
-        case 'Space': intervalControl ? stop() : start(); break;
+        case 'Space': dispatch('S'); break;
 
     }
-
-    changedDirection = last !== direction;
 
 });
