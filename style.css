@@ -40,10 +40,10 @@ footer {
 }
 
 .pixel {
-    border: 1px solid #abc;
+    border: 0.5px solid #abc;
     width: 9px;
     height: 9px;
-    margin: 1px;
+    margin: 0.5px;
 }
 
 .pixel.filled {
