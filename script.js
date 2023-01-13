@@ -53,7 +53,7 @@ function getRandom(min, max) {
 
 /** @type { (size: number) => number } */
 function getScore(size) {
-    const score = Math.ceil(15 - size / 5);
+    const score = Math.ceil(10 - size / 5);
     return score > 0 ? score * 2 : 1;
 }
 
