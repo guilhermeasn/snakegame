@@ -258,13 +258,13 @@ function dispatch(action) {
     
     const last = direction;
 
-    if(!changedDirection) {
+    if(!changedDirection && intervalControl) {
         switch(action) {
 
-            case 'T': direction = (direction !== 3 && intervalControl && !changedDirection) ? 1 : 3; break;
-            case 'R': direction = (direction !== 4 && intervalControl && !changedDirection) ? 2 : 4; break;
-            case 'B': direction = (direction !== 1 && intervalControl && !changedDirection) ? 3 : 1; break;
-            case 'L': direction = (direction !== 2 && intervalControl && !changedDirection) ? 4 : 2; break;
+            case 'T': direction = direction !== 3 ? 1 : 3; break;
+            case 'R': direction = direction !== 4 ? 2 : 4; break;
+            case 'B': direction = direction !== 1 ? 3 : 1; break;
+            case 'L': direction = direction !== 2 ? 4 : 2; break;
 
         }
         changedDirection = last !== direction;
@@ -276,12 +276,11 @@ document.addEventListener("keydown", event => {
 
     switch(event.code) {
 
-        case 'ArrowUp':    case 'KeyW': dispatch('T'); break;
-        case 'ArrowRight': case 'KeyD': dispatch('R'); break;
-        case 'ArrowDown':  case 'KeyS': dispatch('B'); break;
-        case 'ArrowLeft':  case 'KeyA': dispatch('L'); break;
-
-        case 'Space': dispatch('S'); break;
+        case 'ArrowUp':    case 'KeyW':  dispatch('T'); break;
+        case 'ArrowRight': case 'KeyD':  dispatch('R'); break;
+        case 'ArrowDown':  case 'KeyS':  dispatch('B'); break;
+        case 'ArrowLeft':  case 'KeyA':  dispatch('L'); break;
+        case 'Enter':      case 'Space': dispatch('S'); break;
 
     }
 

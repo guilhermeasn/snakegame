@@ -1,6 +1,8 @@
-body {
+*, body {
     font-family: Roboto;
     box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 header {
@@ -38,10 +40,10 @@ footer {
 }
 
 .pixel {
-    border: 1px solid #abc;
-    width: 8px;
-    height: 8px;
-    margin: 1px;
+    border: 0.5px solid #abc;
+    width: 9px;
+    height: 9px;
+    margin: 0.5px;
 }
 
 .pixel.filled {
@@ -99,12 +101,7 @@ select {
 
 .advice {
     text-align: center;
-    font-size: 12px;
-    margin: 0;
-}
-
-.advice a {
-    margin-top: 3px;
+    margin: 5px;
 }
 
 .controls {
@@ -117,6 +114,17 @@ select {
 }
 
 .controls button {
-    margin: 5px;
+    margin: 10px;
     padding: 15px;
+    font-size: 20px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
 }
