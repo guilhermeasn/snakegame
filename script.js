@@ -116,7 +116,7 @@ function evaluate(frameSize) {
         food = null;
         snake.push(head);
 
-        const score = (snake.length - snakeDefault.length) * Math.floor(100 / frameSize * 3);
+        const score = (snake.length - snakeDefault.length) * Math.floor(100 / frameSize * 2);
         const scoreElement = document.getElementById('score');
         const maxScoreElement = document.getElementById('maxscore');
 
