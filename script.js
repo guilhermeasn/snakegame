@@ -4,9 +4,7 @@
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
 
-/**
- * @type { Array<{x:number;y:number}> }
-*/
+/** @type { Array<{x:number;y:number}> } */
 const snakeDefault = [
     { x: 4, y: 0 }, // head
     { x: 3, y: 0 }, // body
@@ -48,10 +46,12 @@ let intervalControl = null;
 /** @type { boolean } */
 let gameEnd = false;
 
+/** @type { (min: number, max: number) => number } */
 function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+/** @type { (frameSize: number) => { x:number;y:number } | null } */
 function addFood(frameSize) {
 
     frameSize--;
@@ -73,6 +73,7 @@ function addFood(frameSize) {
 
 }
 
+/** @type { (frameSize: number) => void } */
 function snakeMove(frameSize) {
 
     let last;
@@ -99,6 +100,7 @@ function snakeMove(frameSize) {
 
 }
 
+/** @type { () => void } */
 function evaluate() {
 
     const head = snake[0];
@@ -127,6 +129,7 @@ function evaluate() {
 
 }
 
+/** @type { () => void } */
 function calculatePixels() {
 
     // @ts-ignore
@@ -157,6 +160,7 @@ function calculatePixels() {
 
 }
 
+/** @type { () => void } */
 function frameRender() {
 
     calculatePixels();
@@ -202,6 +206,7 @@ function frameRender() {
 
 }
 
+/** @type { () => void } */
 function start() {
 
     // @ts-ignore
@@ -218,6 +223,7 @@ function start() {
     intervalControl = setInterval(frameRender, timeout);
 }
 
+/** @type { () => void } */
 function stop() {
 
     const sizeElement = document.getElementById('size');
@@ -228,6 +234,7 @@ function stop() {
 
 }
 
+/** @type { () => void } */
 function reset() {
     gameEnd = false;
     snake = snakeDefault;
@@ -236,6 +243,7 @@ function reset() {
     loadScore();
 }
 
+/** @type { () => void } */
 function loadScore() {
 
     const scoreElement = document.getElementById('score');
@@ -248,6 +256,14 @@ function loadScore() {
 
 }
 
+/** @type { (started: boolean) => void } */
+function startIf(started) {
+    if(
+        (started && intervalControl) ||
+        (!started && !intervalControl)
+    ) start();
+}
+
 /** @type { (action: 'T' | 'B' | 'L' | 'R' | 'S') => void } */
 function dispatch(action) {
 
@@ -255,6 +271,8 @@ function dispatch(action) {
         intervalControl ? stop() : start();
         return;
     }
+
+    startIf(false);
     
     const last = direction;
 
