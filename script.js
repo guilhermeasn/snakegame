@@ -51,6 +51,12 @@ function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+/** @type { (size: number) => number } */
+function getScore(size) {
+    const score = Math.ceil(15 - size / 5);
+    return score > 0 ? score : 1;
+}
+
 /** @type { (frameSize: number) => void } */
 function addFood(frameSize) {
 
@@ -116,7 +122,7 @@ function evaluate(frameSize) {
         food = null;
         snake.push(head);
 
-        const score = (snake.length - snakeDefault.length) * Math.floor(100 / frameSize * 2);
+        const score = (snake.length - snakeDefault.length) * getScore(frameSize);
         const scoreElement = document.getElementById('score');
         const maxScoreElement = document.getElementById('maxscore');
 
