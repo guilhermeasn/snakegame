@@ -51,13 +51,14 @@ function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-/** @type { (frameSize: number) => { x:number;y:number } | null } */
+/** @type { (frameSize: number) => void } */
 function addFood(frameSize) {
 
     frameSize--;
 
     if(pixels.filter(p => p.some(v => v === 0)).length === 0) {
-        return null;
+        food = null;
+        return;
     }
 
     while(true) {
@@ -66,7 +67,8 @@ function addFood(frameSize) {
         const x = getRandom(0, frameSize);
 
         if(pixels[y][x] === 0) {
-            return { y, x };
+            food = { y, x };
+            break;
         }
 
     }
@@ -100,8 +102,8 @@ function snakeMove(frameSize) {
 
 }
 
-/** @type { () => void } */
-function evaluate() {
+/** @type { (frameSize: number) => void } */
+function evaluate(frameSize) {
 
     const head = snake[0];
     
@@ -114,7 +116,7 @@ function evaluate() {
         food = null;
         snake.push(head);
 
-        const score = (snake.length - snakeDefault.length) * 10;
+        const score = (snake.length - snakeDefault.length) * Math.floor(100 / frameSize * 3);
         const scoreElement = document.getElementById('score');
         const maxScoreElement = document.getElementById('maxscore');
 
@@ -137,8 +139,8 @@ function calculatePixels() {
 
     if(pixels && intervalControl) {
         snakeMove(size);
-        evaluate()
-        if(!food) food = addFood(size);
+        evaluate(size)
+        if(!food) addFood(size);
     }
 
     pixels = [];
